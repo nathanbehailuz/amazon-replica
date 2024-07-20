@@ -1,14 +1,8 @@
 import { cart, removeFromCart, updateDeliveryOption  } from "../data/cart.js";
 import { products } from "../data/products.js";
 import { formatCurrency } from "./utils/money.js";
-import { hello } from " https://unpkg.com/supersimpledev@1.0.1/hello.esm.js";
 import dayjs from 'https://unpkg.com/dayjs@1.11.10/esm/index.js' ;
 import { deliveryOptions } from "../data/deliveryOptions.js";
-
-
-const today = dayjs();
-const deliveryDate = today.add(7, 'days');
-hello();
 
 let cartSummaryHTML = '';
 cart.forEach((item) => {
@@ -32,18 +26,23 @@ cart.forEach((item) => {
       }
     });
 
-    const today = dayjs();
-    console.log(deliveryOption.deliveryDate);
-    const deliveryDate = today.add(deliveryOption.deliveryDate, 'days');
-    const dateString = deliveryDate.format ('dddd, MMMM D');
-    console.log(dateString);
-    
+    console.log(deliveryOption);
 
+
+    
+    const today = dayjs();
+    const deliveryDate = today.add(deliveryOption.deliveryDays, 'days');
+
+    console.log('Days to add:', deliveryOption.deliveryDays); // Check if this is correctly defined
+    const dateString = deliveryDate.format('dddd, MMMM D'); // Ensure correct format
+
+    console.log('Formatted delivery date:', dateString); 
+ 
 
     cartSummaryHTML += `
     <div class="cart-item-container js-cart-item-container-${matchingProduct.id} ">
             <div class="delivery-date">
-              Delivery date: ${dateString}
+              Delivery date: ${deliveryDate}
             </div>
 
             <div class="cart-item-details-grid">
@@ -86,8 +85,8 @@ function deliveryOptionsHTML(matchingProduct, item){
   let html = '';
   deliveryOptions.forEach((deliveryOption)=>{
     const today = dayjs();
-    const deliveryDate = today.add(deliveryOption.deliveryDate, 'days');
-    const dateString = deliveryDate.format ('dddd, MMMM D');
+    const deliveryDate = today.add(deliveryOption.deliveryDays, 'days');
+    const dateString = deliveryDate.format('dddd, MMMM D');
     const priceString = deliveryOption.priceCents === 0 ? 'FREE' : `$${formatCurrency(deliveryOption.priceCents)} - `;
 
     const isChecked = deliveryOption.id === item.deliveryOptionId;
@@ -102,7 +101,7 @@ function deliveryOptionsHTML(matchingProduct, item){
           ${dateString}
         </div>
         <div class="delivery-option-price">
-          FREE Shipping
+          ${priceString}
         </div>
       </div>
     </div>
