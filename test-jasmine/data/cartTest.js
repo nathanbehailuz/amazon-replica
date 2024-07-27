@@ -1,4 +1,4 @@
-import {addToCart, cart, loadFromStorage, updateDeliveryOption} from "../../data/cart.js";
+import {addToCart, cart, loadFromStorage} from "../../data/cart.js";
 
 describe("Test suite: add to cart", ()=>{
     it("adds an exsiting product to the cart", ()=>{
